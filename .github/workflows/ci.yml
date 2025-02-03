@@ -1,17 +1,17 @@
 name: Continuous Integration
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  markdown:
+  markdown-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install packages
-        run: sudo gem install mdl
-      - name: Lint markdown files
-        run: mdl *.md -r ~MD029,~MD036,~MD024
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+      - run: npm install
+      - run: npm run lint
